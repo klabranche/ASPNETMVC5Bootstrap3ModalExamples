@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Modal With Simple Partial View";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">Just about the simplest way to call up the bootstrap modal with an ASP.NET MVC action/partial view.<p>
+</div>
+
+
+@Html.ActionLink("Search", "Search", null, null, new { id = "btnSearch", @class = "btn btn-sm btn-info" })
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('#btnSearch').on('click', function (e) {
+                $('#modalContent').load(this.href, function () {
+                    $('#myModal').modal('show');
+                });
+                return false;
+            });
+        });
+
+    </script>
+}

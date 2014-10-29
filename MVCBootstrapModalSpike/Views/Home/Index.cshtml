@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "ASP.NET MVC 5.1 Bootstrap Modal samples";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">This application shows various ways in which you can work with a bootstrap modal dialog in ASP.NET MVC 5.1.  I'm sure this isn't exhaustive and probably far from perfect. I am making this available since I took the time to play around to learn myself. I figure others would appreciate it.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-large">Git hub repo &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Straight vanilla Bootstrap only sample</h2>
+        <p>
+            Sample from the bootstrap docs.  No ASP.NET. Start here if you haven't done this before or it's a really bad day and nothing is working.
+        </p>
+        <p><a class="btn btn-default" href="~/VanillaBootstrapOnly/index.html">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Absolute basic ASP.NET MVC sample</h2>
+        <p>Simplest version of bootstrap modal with ASP.NET MVC. Static HTML served up to modal via Action's.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","Basic")">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Forms in modal</h2>
+        <p>The real likely need of most any web developer. The collection of these samples are using Forms in the modal dialog.  Validation is handled using data annotations and jQuery's unobtrusive validation library.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","Forms")">Learn more &raquo;</a></p>
+    </div>
+</div>

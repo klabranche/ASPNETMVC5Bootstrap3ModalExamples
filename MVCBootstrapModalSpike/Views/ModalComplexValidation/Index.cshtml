@@ -1,0 +1,115 @@
+﻿@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "Modal with Model & Form Submission";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">Form binding to bootstrap modal with an ASP.NET MVC action and client side validation using data annotations & jQuery unobtrusive validation library.<p>
+</div>
+
+@Html.ActionLink("Add Person", "Person", null, null, new { id = "btnPerson", @class = "btn btn-lg btn-info" })
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function() {
+
+            //based loosely on https://www.simple-talk.com/dotnet/asp.net/modal-input-forms-in-asp.net-mvc/
+            //changed to use unobtrusive jQuery validations with data annotations.
+
+            $('#btnPerson').on('click', function (e) {
+
+                //using get sample....  param's object...
+                $.get(this.href, { id: 1 }, function(result) {
+                    $('#modalContent').html(result);
+                    $('#myModal').modal('show');
+                    
+                        $('form').submit(function (e) {
+                            e.preventDefault();
+                            if (!$(this).valid()) {
+                                return false;
+                            }
+
+                            $.ajax({
+                                url: this.action,
+                                type: this.method,
+                                data: $(this).serialize() //if building up some other way, be sure to add antiforgery token
+                            }).done(function (result) {
+                                if (result.success) {
+                                //alert('done');
+                                $('#myModal').modal('hide');
+                                //do the happy path...
+                                } else {
+                                    //$('form', this).html(result);
+                                    //model state errors....
+                                    //http://debapk.blogspot.com/2011/11/how-to-render-model-validation-error-on.html
+                                    $.each(result.errors, function(key, val) {
+                                        var container = $('span[data-valmsg-for="' + key + '"]');
+                                        container.removeClass("field-validation-valid").addClass("field-validation-error");
+                                        container.html(val[val.length - 1].ErrorMessage);
+                                    });
+
+                                }
+                            }).fail(function (xhr, status, error) {
+                                alert('failed');
+                            });
+                        });
+                });
+            
+                //http://api.jquery.com/load/
+                //using load which is a shorthand method call for get that loads the results into the element.  
+                //However, if you use param's object it uses post....
+                //$('#modalContent').load(this.href + "/1", function() {
+                //    $('#myModal').modal('show');
+                //    $('form',this).submit(function (e) {
+                //        e.preventDefault();
+                //        //if (!$(this).valid()) {
+                //        //    return false;
+                //        //}
+
+                //        $.ajax({
+                //            url: this.action,
+                //            type: this.method,
+                //            data: $(this).serialize()
+                //        }).done(function (result) {
+                //            if (result.success) {
+                //            //alert('done');
+                //            $('#myModal').modal('hide');
+                //            //do the happy path...
+                //            } else {
+                //                //$('form', this).html(result);
+                //                //model state errors....
+                //                //http://debapk.blogspot.com/2011/11/how-to-render-model-validation-error-on.html
+                //                $.each(result.errors, function(key, val) {
+                //                    var container = $('span[data-valmsg-for="' + key + '"]');
+                //                    container.removeClass("field-validation-valid").addClass("field-validation-error");
+                //                    container.html(val[val.length - 1].ErrorMessage);
+                //                });
+                                
+                //            }
+                //        }).fail(function (xhr, status, error) {
+                //            alert('failed');
+                //        });
+                //    });
+                    
+                //});
+                return false;
+            });
+
+        });
+
+    </script>
+}
+
+

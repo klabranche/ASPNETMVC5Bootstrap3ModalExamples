@@ -1,0 +1,49 @@
+﻿@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "Modal with Model & Form Submission";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">Form binding to bootstrap modal with an ASP.NET MVC action.<p>
+</div>
+
+
+@Html.ActionLink("Add Person", "Person", null, null, new { id = "btnPerson", @class = "btn btn-lg btn-info" })
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('#btnPerson').on('click', function (e) {
+                $('#modalContent').load(this.href, function () {
+                    $('#myModal').modal('show');
+                    $('form', this).submit(function () {
+                        $.ajax({
+                            url: this.action,
+                            type: this.method,
+                            data: $(this).serialize(),
+                            }).done(function() {
+                                $('#myModal').modal('hide');
+                            });
+                    });
+                });
+                return false;
+            });
+        });
+
+    </script>
+}
+
+

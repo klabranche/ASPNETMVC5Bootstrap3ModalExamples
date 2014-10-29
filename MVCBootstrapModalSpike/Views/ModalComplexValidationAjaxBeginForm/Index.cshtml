@@ -1,0 +1,47 @@
+﻿@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "Modal with Model & Form Submission";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">Form binding to bootstrap modal with the Ajax Helpers<p>
+</div>
+
+@Ajax.ActionLink("Add Person", "Person",null,
+new AjaxOptions() {HttpMethod = "Get",UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "onBegin", OnSuccess = "onSuccess",OnFailure = "onFailure",OnComplete = "onComplete"},
+new { id = "btnPerson", @class = "btn btn-lg btn-info" })
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function onBegin() {
+            //alert('begin');
+        }
+
+        function onSuccess() {
+            //alert('success');
+        }
+
+        function onComplete() {
+           // alert('complete');
+            $('#myModal').modal('show');
+        }
+
+        function onFailure() {
+            alert('fail');
+        }
+    </script>
+}
+
+

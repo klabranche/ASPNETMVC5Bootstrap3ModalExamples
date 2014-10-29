@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Forms in modal";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">Samples using forms in the modal dialog with validation, etc.<p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-large">Git hub repo &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>Simple Form, no validation</h2>
+        <p>
+            Validation is ignored. Not that we would ever do that! Just to demonstrate the how to do a modal form. 
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","ModalComplex")">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Form with validation</h2>
+        <p>Shows validation on server and client.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","ModalComplexValidation")">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Form with validation returning a Partial View.</h2>
+        <p>Shows validation on server and client.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","ModalComplexValidationReturningPartial")">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Form with validation, taking into account Non Ajax client calls.</h2>
+        <p>Shows validation on server and client.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","ModalComplexValidationNonAjax")">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Forms in modal using Ajax Helpers</h2>
+        <p>Using the Ajax Helpers in ASP.NET MVC to work with Forms in the modal dialog.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","ModalComplexValidationAjaxBeginForm")">Learn more &raquo;</a></p>
+    </div>
+</div>
+

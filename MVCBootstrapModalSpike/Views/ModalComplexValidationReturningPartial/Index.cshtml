@@ -1,0 +1,76 @@
+﻿@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "Modal with Model & Form Submission returing partials";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">Form binding to bootstrap modal with an ASP.NET MVC action/partial view and client side validation using data annotations & jQuery unobtrusive validation library.<p>
+</div>
+
+@Html.ActionLink("Add Person", "Person", null, null, new { id = "btnPerson", @class = "btn btn-lg btn-info" })
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+            @* @Html.Partial("_Person") @*http://stackoverflow.com/questions/7287412/jquery-validate-asp-net-mvc-modelstate-errors-async-post*@
+            @Html.Action("Person",new {id=3})
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function() {
+
+            $('#btnPerson').on('click', function (e) {
+                e.preventDefault();
+                //$('#modalContent').load(this.href, function() {
+                    $('#myModal').modal('show');
+                bindForm();  //bindForm(this);  //if using load instead of Html.Partial / Html.Action above in the modalContent block
+                    
+                //}); //load
+                //return false;
+                });
+                
+
+            //https://www.simple-talk.com/dotnet/asp.net/modal-input-forms-in-asp.net-mvc/
+            function bindForm(dialog) {
+                $('form',dialog).submit(function (e) {
+                    e.preventDefault();
+                    //if using load/get instead of Html.Partial/Action also need script code in _person partial view uncommented out.
+                    if (!$(this).valid()) {
+                        return false;
+                    }
+
+                    $.ajax({
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    }).done(function (result) {
+                        if (result.success) {
+                            //alert('done');
+                            $('#myModal').modal('hide');
+                            //do the happy path...
+                            location.reload();
+                        } else {
+                            //refresh view
+                            $('#modalContent').html(result);
+                            bindForm();//rebind form since we just overwrote the HTML...
+                        }
+                    }).fail(function (xhr, status, error) {
+                        alert('failed');
+                    });
+                });
+            }
+
+        });
+
+    </script>
+}
+
+
